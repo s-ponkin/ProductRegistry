@@ -1,4 +1,4 @@
-package com.example.ProductRegistry.model;
+package com.example.product.registry.model;
 
 public class Product {
 

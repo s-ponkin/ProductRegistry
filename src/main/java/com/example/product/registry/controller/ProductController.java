@@ -1,7 +1,7 @@
-package com.example.ProductRegistry.controller;
+package com.example.product.registry.controller;
 
-import com.example.ProductRegistry.model.Product;
-import com.example.ProductRegistry.service.ProductService;
+import com.example.product.registry.model.Product;
+import com.example.product.registry.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

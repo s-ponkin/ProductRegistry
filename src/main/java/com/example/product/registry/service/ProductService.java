@@ -1,6 +1,6 @@
-package com.example.ProductRegistry.service;
+package com.example.product.registry.service;
 
-import com.example.ProductRegistry.model.Product;
+import com.example.product.registry.model.Product;
 
 import java.util.List;
 
