@@ -1,6 +1,6 @@
 ### Обновить данные продукта по id = 1
 
-PUT http://localhost:8080/products/1
+PUT http://localhost:8080/product?id=1
 Content-Type: application/json
 
 {

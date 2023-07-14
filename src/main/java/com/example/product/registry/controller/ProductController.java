@@ -1,7 +1,8 @@
 package com.example.product.registry.controller;
 
 import com.example.product.registry.model.Product;
-import com.example.product.registry.service.ProductService;
+import com.example.product.registry.model.ProductInfo;
+import com.example.product.registry.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,45 +20,43 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping(value = "/products")
-    public ResponseEntity<?> create(@RequestBody Product product) {
-        productService.create(product);
+    @PostMapping(value = "/product")
+    public ResponseEntity<?> create(@RequestBody ProductInfo productInfo) {
+        Product product = productService.create(productInfo);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/products")
+    @GetMapping(value = "/product/all")
     public ResponseEntity<List<Product>> read() {
-        final List<Product> products = productService.readAll();
+        final List<Product> products = productService.getAll();
 
         return products != null && products.isEmpty()
                 ? new ResponseEntity<>(products, HttpStatus.OK)
                 : new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/products/{id}")
-    public ResponseEntity<Product> read(@PathVariable(name = "id") int id) {
-        final Product product = productService.read(id);
+    @GetMapping(value = "/product")
+    public ResponseEntity<Product> read(@RequestParam("id") int id) {
+        final Product product = productService.getById(id);
 
         return product != null
                 ? new ResponseEntity<>(product, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "/products/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Product product) {
-        final boolean updated = productService.update(product, id);
+    @PutMapping(value = "/product")
+    public ResponseEntity<?> update(@RequestParam("id") int id, @RequestBody ProductInfo productInfo) {
+        final Product product = productService.update(productInfo, id);
 
-        return updated
+        return product != null
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/products/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
-        final boolean deleted = productService.delete(id);
+    @DeleteMapping(value = "/product")
+    public ResponseEntity<?> delete(@RequestParam("id") int id) {
+        productService.delete(id);
 
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
