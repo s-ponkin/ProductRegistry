@@ -7,17 +7,11 @@ import com.example.product.registry.service.product.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private static final Map<Integer, Product> PRODUCT_REPOSITORY_MAP = new HashMap<>();
-    private static final AtomicInteger PRODUCT_ID_HOLDER = new AtomicInteger();
     private static DbHandler DATABASE_HANDLER;
 
     public ProductServiceImpl() {
