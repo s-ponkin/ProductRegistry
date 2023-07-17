@@ -3,60 +3,49 @@ package com.example.product.registry.controller;
 import com.example.product.registry.model.Product;
 import com.example.product.registry.model.ProductInfo;
 import com.example.product.registry.service.product.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 public class ProductController {
 
-    private final ProductService productService;
+	private final ProductService productService;
 
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+	@PostMapping(value = "/product")
+	public ResponseEntity<?> create(@RequestBody ProductInfo productInfo) {
+		Product product = productService.create(productInfo);
+		return new ResponseEntity<>(product, HttpStatus.CREATED);
+	}
 
-    @PostMapping(value = "/product")
-    public ResponseEntity<?> create(@RequestBody ProductInfo productInfo) {
-        Product product = productService.create(productInfo);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+	@GetMapping(value = "/product/all")
+	public ResponseEntity<List<Product>> read() {
+		List<Product> products = productService.getAll();
 
-    @GetMapping(value = "/product/all")
-    public ResponseEntity<List<Product>> read() {
-        final List<Product> products = productService.getAll();
+		return products != null && products.isEmpty()
+			? new ResponseEntity<>(products, HttpStatus.OK)
+			: new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+	}
 
-        return products != null && products.isEmpty()
-                ? new ResponseEntity<>(products, HttpStatus.OK)
-                : new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
-    }
+	@GetMapping(value = "/product")
+	public ResponseEntity<Product> read(@RequestParam("id") int id) {
+		Product product = productService.getById(id);
+		return new ResponseEntity<>(product, HttpStatus.OK);
+	}
 
-    @GetMapping(value = "/product")
-    public ResponseEntity<Product> read(@RequestParam("id") int id) {
-        final Product product = productService.getById(id);
+	@PutMapping(value = "/product")
+	public ResponseEntity<?> update(@RequestParam("id") int id, @RequestBody ProductInfo productInfo) {
+		Product product = productService.update(productInfo, id);
+		return new ResponseEntity<>(product, HttpStatus.OK);
+	}
 
-        return product != null
-                ? new ResponseEntity<>(product, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PutMapping(value = "/product")
-    public ResponseEntity<?> update(@RequestParam("id") int id, @RequestBody ProductInfo productInfo) {
-        final Product product = productService.update(productInfo, id);
-
-        return product != null
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    @DeleteMapping(value = "/product")
-    public ResponseEntity<?> delete(@RequestParam("id") int id) {
-        productService.delete(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+	@DeleteMapping(value = "/product")
+	public ResponseEntity<?> delete(@RequestParam("id") int id) {
+		productService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

@@ -1,28 +1,22 @@
 package com.example.product.registry.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Value;
 
-@Getter
-@Setter
+@Value
+@Builder
 public class ProductInfo {
 
-    /**
-     * Имя продукта
-     */
-    private String name;
-    /**
-     * Количество продукта
-     */
-    private int quantity;
-    /**
-     * Стоимость продукта
-     */
-    private double cost;
-
-    public ProductInfo(String name, int quantity, double cost) {
-        this.name = name;
-        this.quantity = quantity;
-        this.cost = cost;
-    }
+	/**
+	 * Имя продукта
+	 */
+	String name;
+	/**
+	 * Количество продукта
+	 */
+	int quantity;
+	/**
+	 * Стоимость продукта
+	 */
+	double cost;
 }

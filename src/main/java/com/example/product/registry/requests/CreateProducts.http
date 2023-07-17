@@ -4,7 +4,7 @@ POST http://localhost:8080/product
 Content-Type: application/json
 
 {
-  "name": "Orange",
-  "quantity": 60,
-  "cost": 150.0
+    "name": "Orange",
+    "quantity": 60,
+    "cost": 150.0
 }
