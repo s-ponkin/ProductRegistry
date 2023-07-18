@@ -19,16 +19,13 @@ public class ProductController {
 	@PostMapping(value = "/product")
 	public ResponseEntity<?> create(@RequestBody ProductInfo productInfo) {
 		Product product = productService.create(productInfo);
-		return new ResponseEntity<>(product, HttpStatus.CREATED);
+		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/product/all")
 	public ResponseEntity<List<Product>> read() {
 		List<Product> products = productService.getAll();
-
-		return products != null && products.isEmpty()
-			? new ResponseEntity<>(products, HttpStatus.OK)
-			: new ResponseEntity<>(products, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/product")

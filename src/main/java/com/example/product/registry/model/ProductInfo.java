@@ -11,10 +11,12 @@ public class ProductInfo {
 	 * Имя продукта
 	 */
 	String name;
+
 	/**
 	 * Количество продукта
 	 */
 	int quantity;
+
 	/**
 	 * Стоимость продукта
 	 */

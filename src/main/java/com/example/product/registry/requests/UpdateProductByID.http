@@ -1,10 +1,10 @@
-### Обновить данные продукта по id = 1
+### Обновить данные продукта по id
 
-PUT http://localhost:8080/product?id=4
+PUT http://localhost:8080/product?id=1
 Content-Type: application/json
 
 {
-    "name": "Oreo",
-    "quantity": 111,
-    "cost": 130.0
+  "name": "Oreo",
+  "quantity": 111,
+  "cost": 130.0
 }

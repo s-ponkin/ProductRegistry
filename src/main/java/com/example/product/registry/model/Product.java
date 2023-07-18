@@ -1,9 +1,9 @@
 package com.example.product.registry.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class Product {
 
@@ -11,14 +11,17 @@ public class Product {
 	 * ID продукта в базе данных
 	 */
 	int id;
+
 	/**
 	 * Имя продукта
 	 */
 	String name;
+
 	/**
 	 * Количество продукта
 	 */
-	private int quantity;
+	int quantity;
+
 	/**
 	 * Стоимость продукта
 	 */

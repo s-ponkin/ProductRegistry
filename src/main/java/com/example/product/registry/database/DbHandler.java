@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.example.product.registry.consts.QueryConsts.*;
+
 @Service
 public class DbHandler {
 
@@ -40,7 +42,7 @@ public class DbHandler {
 
 		try (Statement statement = this.connection.createStatement()) {
 			List<Product> products = new ArrayList<>();
-			ResultSet resultSet = statement.executeQuery("SELECT id, name, quantity, cost FROM products");
+			ResultSet resultSet = statement.executeQuery(SELECT_ALL);
 			while (resultSet.next()) {
 				products.add(Product.builder()
 					.id(resultSet.getInt("id"))
@@ -59,17 +61,17 @@ public class DbHandler {
 	public Product getProductById(int id) {
 		Product product = null;
 		try (PreparedStatement statement = this.connection.prepareStatement(
-			"SELECT * FROM products WHERE id = ?")) {
+				SELECT_BY_ID)) {
 			statement.setObject(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.getInt("id") == 0) {
 				throw ProductNotFoundException.byId(id);
 			}
 			product = Product.builder()
-				.id(resultSet.getInt("id"))
-				.name(resultSet.getString("name"))
-				.quantity(resultSet.getInt("quantity"))
-				.cost(resultSet.getDouble("cost"))
+					.id(resultSet.getInt("id"))
+					.name(resultSet.getString("name"))
+					.quantity(resultSet.getInt("quantity"))
+					.cost(resultSet.getDouble("cost"))
 				.build();
 		} catch (SQLException e) {
 			logger.log(Level.WARNING, e.getMessage());
@@ -79,20 +81,17 @@ public class DbHandler {
 
 	public Product addProduct(ProductInfo productInfo) {
 		Product product = null;
-		try (PreparedStatement statement = this.connection.prepareStatement(
-			"INSERT INTO products(name, quantity, cost) " +
-				"VALUES(?, ?, ?)")) {
+		try (PreparedStatement statement = this.connection.prepareStatement(INSERT)) {
 			statement.setObject(1, productInfo.getName());
 			statement.setObject(2, productInfo.getQuantity());
 			statement.setObject(3, productInfo.getCost());
 			statement.execute();
-			String query = "SELECT * FROM products ORDER BY id DESC LIMIT 1";
 			Statement statement1 = connection.createStatement();
-			ResultSet resultSet = statement1.executeQuery(query);
+			ResultSet resultSet = statement1.executeQuery(SELECT_LAST_ELEMENT);
 			product = Product.builder()
-				.id(resultSet.getInt("id"))
-				.name(resultSet.getString("name"))
-				.quantity(resultSet.getInt("quantity"))
+					.id(resultSet.getInt("id"))
+					.name(resultSet.getString("name"))
+					.quantity(resultSet.getInt("quantity"))
 				.cost(resultSet.getDouble("cost"))
 				.build();
 		} catch (SQLException e) {
@@ -104,18 +103,17 @@ public class DbHandler {
 	public Product updateProduct(ProductInfo productInfo, int id) {
 		getProductById(id);
 		Product product = null;
-		try (PreparedStatement statement = this.connection.prepareStatement(
-			"UPDATE products SET name = ?, quantity = ?, cost = ? WHERE id = ?")) {
+		try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_BY_ID)) {
 			statement.setObject(1, productInfo.getName());
 			statement.setObject(2, productInfo.getQuantity());
 			statement.setObject(3, productInfo.getCost());
 			statement.setObject(4, id);
 			statement.executeUpdate();
 			product = Product.builder()
-				.id(id)
-				.name(productInfo.getName())
-				.quantity(productInfo.getQuantity())
-				.cost(productInfo.getCost())
+					.id(id)
+					.name(productInfo.getName())
+					.quantity(productInfo.getQuantity())
+					.cost(productInfo.getCost())
 				.build();
 		} catch (SQLException e) {
 			logger.log(Level.WARNING, e.getMessage());
@@ -124,8 +122,7 @@ public class DbHandler {
 	}
 
 	public void deleteProduct(int id) {
-		try (PreparedStatement statement = this.connection.prepareStatement(
-			"DELETE FROM products WHERE id = ?")) {
+		try (PreparedStatement statement = this.connection.prepareStatement(DELETE_BY_ID)) {
 			statement.setObject(1, id);
 			statement.execute();
 		} catch (SQLException e) {
