@@ -36,9 +36,8 @@ public interface ProductService {
 	 * Обновляет продукт с заданным ID,
 	 * в соответствии с переданным продуктом
 	 *
-	 * @param productInfo продукт в соответсвии с которым нужно обновить данные
+	 * @param productInfo информация в соответсвии с которой нужно обновить данные
 	 * @param id          id продукта который нужно обновить
-	 *
 	 * @return - true если данные были обновлены, иначе false
 	 */
 	Product update(ProductInfo productInfo, int id);

@@ -60,8 +60,7 @@ public class DbHandler {
 
 	public Product getProductById(int id) {
 		Product product = null;
-		try (PreparedStatement statement = this.connection.prepareStatement(
-				SELECT_BY_ID)) {
+		try (PreparedStatement statement = this.connection.prepareStatement(SELECT_BY_ID)) {
 			statement.setObject(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.getInt("id") == 0) {
