@@ -1,15 +1,22 @@
 package com.example.product.registry.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@AllArgsConstructor
+@Data
 @Builder
+@Entity
+@Table(name = "Product")
 public class Product {
 
 	/**
 	 * ID продукта в базе данных
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
 	/**
@@ -26,4 +33,8 @@ public class Product {
 	 * Стоимость продукта
 	 */
 	double cost;
+
+	public Product() {
+
+	}
 }
