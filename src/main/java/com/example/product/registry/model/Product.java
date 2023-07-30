@@ -35,6 +35,5 @@ public class Product {
 	double cost;
 
 	public Product() {
-
 	}
 }

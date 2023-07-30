@@ -3,10 +3,11 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.driver_class">org.sqlite.JDBC</property>
-        <property name="connection.url">jdbc:sqlite:src/main/java/com/example/product/registry/data/Product.db
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <property name="connection.url">jdbc:h2:mem:src/main/java/com/example/product/registry/data/Product.db
         </property>
-        <property name="dialect">org.sqlite.hibernate.dialect.SQLiteDialect</property>
+        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+        <property name="hbm2ddl.auto">update</property>
         <mapping class="com.example.product.registry.model.Product"/>
     </session-factory>
 </hibernate-configuration>
