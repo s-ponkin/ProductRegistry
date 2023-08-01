@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 @Entity
-@Table(name = "Product")
+@Table(name = "PRODUCT")
 public class Product {
 
 	/**
@@ -22,16 +22,19 @@ public class Product {
 	/**
 	 * Имя продукта
 	 */
+	@Column(name = "NAME")
 	String name;
 
 	/**
 	 * Количество продукта
 	 */
+	@Column(name = "QUANTITY")
 	int quantity;
 
 	/**
 	 * Стоимость продукта
 	 */
+	@Column(name = "COST")
 	double cost;
 
 	public Product() {
