@@ -14,26 +14,20 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Component
 public class HibernateUtil {
 
 	private static final Logger logger = Logger.getLogger(HibernateUtil.class.getName());
-	private static HibernateUtil instance = null;
 	private static SessionFactory SESSION_FACTORY;
 
-	public static synchronized HibernateUtil getInstance() {
-		if (instance == null) {
-			instance = new HibernateUtil();
-		}
-		return instance;
-	}
-
-	private HibernateUtil() {
+	public HibernateUtil() {
 		StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 			.configure("hibernate.cfg.xml").build();
 		Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
@@ -41,7 +35,6 @@ public class HibernateUtil {
 	}
 
 	public List<Product> getAllProducts() {
-
 		try (Session session = SESSION_FACTORY.openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<Product> query = builder.createQuery(Product.class);
@@ -64,6 +57,9 @@ public class HibernateUtil {
 			}
 		} catch (Exception e) {
 			logger.log(Level.WARNING, e.getMessage());
+			if (e instanceof ProductNotFoundException) {
+				throw ProductNotFoundException.byId(id);
+			}
 		}
 		return product;
 	}
@@ -91,9 +87,11 @@ public class HibernateUtil {
 	}
 
 	public Product updateProduct(ProductInfo productInfo, int id) {
-		getProductById(id);
-		Transaction transaction = null;
 		Product product = null;
+		if (getProductById(id) == null) {
+			return product;
+		}
+		Transaction transaction = null;
 		try (Session session = SESSION_FACTORY.openSession()) {
 			transaction = session.beginTransaction();
 			product = session.get(Product.class, id);
@@ -115,7 +113,7 @@ public class HibernateUtil {
 		try (Session session = SESSION_FACTORY.openSession()) {
 			transaction = session.beginTransaction();
 			Product product = session.get(Product.class, id);
-			session.delete(product);
+			session.remove(product);
 			transaction.commit();
 		} catch (Exception ex) {
 			if (transaction != null) {

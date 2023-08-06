@@ -4,25 +4,19 @@ import com.example.product.registry.database.HibernateUtil;
 import com.example.product.registry.model.Product;
 import com.example.product.registry.model.ProductInfo;
 import com.example.product.registry.service.product.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
 
 	private static final Logger logger = Logger.getLogger(ProductServiceImpl.class.getName());
-	private static HibernateUtil HIBERNATE;
+	private final HibernateUtil HIBERNATE;
 
-	public ProductServiceImpl() {
-		try {
-			HIBERNATE = HibernateUtil.getInstance();
-		} catch (Exception ex) {
-			logger.log(Level.WARNING, ex.getMessage());
-		}
-	}
 
 	@Override
 	public Product create(ProductInfo productInfo) {
