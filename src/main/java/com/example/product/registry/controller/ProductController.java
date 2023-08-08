@@ -2,7 +2,7 @@ package com.example.product.registry.controller;
 
 import com.example.product.registry.model.Product;
 import com.example.product.registry.model.ProductInfo;
-import com.example.product.registry.service.product.ProductService;
+import com.example.product.registry.service.product.ProductPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-	private final ProductService productService;
+	private final ProductPersistence productService;
 
 	@PostMapping(value = "/product")
 	public ResponseEntity<?> create(@RequestBody ProductInfo productInfo) {
