@@ -5,7 +5,7 @@ import com.example.product.registry.model.ProductInfo;
 
 import java.util.List;
 
-public interface ProductService {
+public interface ProductPersistence {
 
 	/**
 	 * Создает новый продукт

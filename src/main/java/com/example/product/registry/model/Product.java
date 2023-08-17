@@ -1,29 +1,41 @@
 package com.example.product.registry.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Builder
+@Entity
+@Table(name = "PRODUCT")
 public class Product {
 
 	/**
 	 * ID продукта в базе данных
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
 	/**
 	 * Имя продукта
 	 */
+	@Column(name = "NAME")
 	String name;
 
 	/**
 	 * Количество продукта
 	 */
+	@Column(name = "QUANTITY")
 	int quantity;
 
 	/**
 	 * Стоимость продукта
 	 */
+	@Column(name = "COST")
 	double cost;
 }
