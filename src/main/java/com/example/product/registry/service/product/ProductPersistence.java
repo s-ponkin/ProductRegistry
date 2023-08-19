@@ -1,7 +1,8 @@
 package com.example.product.registry.service.product;
 
-import com.example.product.registry.model.Product;
-import com.example.product.registry.model.ProductInfo;
+import com.example.product.registry.entity.ProductEntity;
+import com.example.product.registry.model.ProductCreateCommand;
+import com.example.product.registry.model.ProductUpdateCommand;
 
 import java.util.List;
 
@@ -10,18 +11,18 @@ public interface ProductPersistence {
 	/**
 	 * Создает новый продукт
 	 *
-	 * @param productInfo продукт для создания
+	 * @param productCreateCommand продукт для создания
 	 *
 	 * @return объект класса Product
 	 */
-	Product create(ProductInfo productInfo);
+	ProductEntity create(ProductCreateCommand productCreateCommand);
 
 	/**
 	 * Возвращает список всех имеющихся продуктов
 	 *
 	 * @return список продуктов
 	 */
-	List<Product> getAll();
+	List<ProductEntity> getAll();
 
 	/**
 	 * Возвращает продукт по его ID
@@ -30,17 +31,16 @@ public interface ProductPersistence {
 	 *
 	 * @return объект продукта с заданным ID
 	 */
-	Product getById(int id);
+	ProductEntity getById(int id);
 
 	/**
 	 * Обновляет продукт с заданным ID,
 	 * в соответствии с переданным продуктом
 	 *
-	 * @param productInfo информация в соответсвии с которой нужно обновить данные
-	 * @param id          id продукта который нужно обновить
+	 * @param productUpdateCommand информация в соответсвии с которой нужно обновить данные
 	 * @return - true если данные были обновлены, иначе false
 	 */
-	Product update(ProductInfo productInfo, int id);
+	ProductEntity update(ProductUpdateCommand productUpdateCommand);
 
 	/**
 	 * Удаляет продукт с заданным ID

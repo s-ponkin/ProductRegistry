@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class ProductInfo {
+public class ProductCreateCommand {
 
 	/**
 	 * Имя продукта

@@ -1,8 +1,9 @@
 package com.example.product.registry.service.product.impl;
 
+import com.example.product.registry.entity.ProductEntity;
 import com.example.product.registry.exception.handler.ProductNotFoundException;
-import com.example.product.registry.model.Product;
-import com.example.product.registry.model.ProductInfo;
+import com.example.product.registry.model.ProductCreateCommand;
+import com.example.product.registry.model.ProductUpdateCommand;
 import com.example.product.registry.repository.ProductRepository;
 import com.example.product.registry.service.product.ProductPersistence;
 import lombok.RequiredArgsConstructor;
@@ -17,34 +18,34 @@ public class ProductPersistenceImpl implements ProductPersistence {
 	private final ProductRepository productRepository;
 
 	@Override
-	public Product create(ProductInfo productInfo) {
-		Product product = Product.builder()
-			.name(productInfo.getName())
-			.quantity(productInfo.getQuantity())
-			.cost(productInfo.getCost())
+	public ProductEntity create(ProductCreateCommand productCreateCommand) {
+		ProductEntity productEntity = com.example.product.registry.entity.ProductEntity.builder()
+			.name(productCreateCommand.getName())
+			.quantity(productCreateCommand.getQuantity())
+			.cost(productCreateCommand.getCost())
 			.build();
-		return productRepository.save(product);
+		return productRepository.save(productEntity);
 	}
 
 	@Override
-	public List<Product> getAll() {
+	public List<ProductEntity> getAll() {
 		return productRepository.findAll();
 	}
 
 	@Override
-	public Product getById(int id) {
+	public ProductEntity getById(int id) {
 		return productRepository.findById(id)
 			.orElseThrow(() -> ProductNotFoundException.byId(id));
 	}
 
 	@Override
-	public Product update(ProductInfo productInfo, int id) {
-		Product product = productRepository.findById(id)
-			.orElseThrow(() -> ProductNotFoundException.byId(id));
-		product.setName(product.getName());
-		product.setCost(productInfo.getCost());
-		product.setQuantity(productInfo.getQuantity());
-		return productRepository.save(product);
+	public ProductEntity update(ProductUpdateCommand productUpdateCommand) {
+		ProductEntity productEntity = productRepository.findById(productUpdateCommand.getId())
+			.orElseThrow(() -> ProductNotFoundException.byId(productUpdateCommand.getId()));
+		productEntity.setName(productUpdateCommand.getName());
+		productEntity.setCost(productUpdateCommand.getCost());
+		productEntity.setQuantity(productUpdateCommand.getQuantity());
+		return productRepository.save(productEntity);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.example.product.registry.model;
+package com.example.product.registry.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "PRODUCT")
-public class Product {
+public class ProductEntity {
 
 	/**
 	 * ID продукта в базе данных

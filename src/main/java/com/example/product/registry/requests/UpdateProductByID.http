@@ -5,6 +5,6 @@ Content-Type: application/json
 
 {
   "name": "Oreo",
-  "quantity": 111,
-  "cost": 130.0
+    "quantity": 156,
+    "cost": 111.0
 }
