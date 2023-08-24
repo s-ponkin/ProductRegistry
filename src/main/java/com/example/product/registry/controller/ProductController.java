@@ -1,12 +1,12 @@
 package com.example.product.registry.controller;
 
-import com.example.product.registry.convert.impl.ConverterImpl;
 import com.example.product.registry.entity.ProductEntity;
 import com.example.product.registry.model.ProductCreateCommand;
 import com.example.product.registry.model.ProductInfoOutput;
 import com.example.product.registry.model.ProductUpdateCommand;
-import com.example.product.registry.service.product.ProductPersistence;
+import com.example.product.registry.persistence.product.ProductPersistence;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +19,13 @@ import java.util.List;
 public class ProductController {
 
 	private final ProductPersistence productPersistence;
-	private final ConverterImpl converter = new ConverterImpl();
+	private final ConversionService conversionService;
 
 	@PostMapping(value = "/product")
 	public ResponseEntity<?> create(@RequestBody ProductCreateCommand productCreateCommand) {
 		ProductEntity productEntity = productPersistence.create(productCreateCommand);
-		return new ResponseEntity<>(converter.convert(productEntity), HttpStatus.OK);
+		ProductInfoOutput productInfoOutput = conversionService.convert(productEntity, ProductInfoOutput.class);
+		return new ResponseEntity<>(productInfoOutput, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/product/all")
@@ -32,7 +33,8 @@ public class ProductController {
 		List<ProductEntity> productEntities = productPersistence.getAll();
 		List<ProductInfoOutput> productList = new ArrayList<>();
 		for (ProductEntity product : productEntities) {
-			productList.add(converter.convert(product));
+			ProductInfoOutput productInfoOutput = conversionService.convert(product, ProductInfoOutput.class);
+			productList.add(productInfoOutput);
 		}
 		return new ResponseEntity<>(productList, HttpStatus.OK);
 	}
@@ -40,14 +42,16 @@ public class ProductController {
 	@GetMapping(value = "/product")
 	public ResponseEntity<ProductInfoOutput> read(@RequestParam("id") int id) {
 		ProductEntity productEntity = productPersistence.getById(id);
-		return new ResponseEntity<>(converter.convert(productEntity), HttpStatus.OK);
+		ProductInfoOutput productInfoOutput = conversionService.convert(productEntity, ProductInfoOutput.class);
+		return new ResponseEntity<>(productInfoOutput, HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/product")
 	public ResponseEntity<?> update(@RequestParam("id") int id, @RequestBody ProductUpdateCommand productUpdateCommand) {
 		productUpdateCommand.setId(id);
 		ProductEntity productEntity = productPersistence.update(productUpdateCommand);
-		return new ResponseEntity<>(converter.convert(productEntity), HttpStatus.OK);
+		ProductInfoOutput productInfoOutput = conversionService.convert(productEntity, ProductInfoOutput.class);
+		return new ResponseEntity<>(productInfoOutput, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/product")

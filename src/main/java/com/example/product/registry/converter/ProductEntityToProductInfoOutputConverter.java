@@ -1,10 +1,12 @@
-package com.example.product.registry.convert.impl;
+package com.example.product.registry.converter;
 
-import com.example.product.registry.convert.Converter;
 import com.example.product.registry.entity.ProductEntity;
 import com.example.product.registry.model.ProductInfoOutput;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Service;
 
-public class ConverterImpl implements Converter<ProductEntity, ProductInfoOutput> {
+@Service
+public class ProductEntityToProductInfoOutputConverter implements Converter<ProductEntity, ProductInfoOutput> {
 
 	@Override
 	public ProductInfoOutput convert(ProductEntity source) {

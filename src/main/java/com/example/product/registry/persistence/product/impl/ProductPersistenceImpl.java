@@ -1,11 +1,11 @@
-package com.example.product.registry.service.product.impl;
+package com.example.product.registry.persistence.product.impl;
 
 import com.example.product.registry.entity.ProductEntity;
 import com.example.product.registry.exception.handler.ProductNotFoundException;
 import com.example.product.registry.model.ProductCreateCommand;
 import com.example.product.registry.model.ProductUpdateCommand;
+import com.example.product.registry.persistence.product.ProductPersistence;
 import com.example.product.registry.repository.ProductRepository;
-import com.example.product.registry.service.product.ProductPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class ProductPersistenceImpl implements ProductPersistence {
 
 	@Override
 	public ProductEntity create(ProductCreateCommand productCreateCommand) {
-		ProductEntity productEntity = com.example.product.registry.entity.ProductEntity.builder()
+		ProductEntity productEntity = ProductEntity.builder()
 			.name(productCreateCommand.getName())
 			.quantity(productCreateCommand.getQuantity())
 			.cost(productCreateCommand.getCost())

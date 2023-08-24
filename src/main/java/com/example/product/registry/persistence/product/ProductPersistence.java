@@ -1,4 +1,4 @@
-package com.example.product.registry.service.product;
+package com.example.product.registry.persistence.product;
 
 import com.example.product.registry.entity.ProductEntity;
 import com.example.product.registry.model.ProductCreateCommand;
